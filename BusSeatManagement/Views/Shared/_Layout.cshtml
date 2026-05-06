@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Smart Bus Seat Management</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/BusSeatManagement.styles.css"
+          asp-append-version="true" />
+
+    <style>
+
+            body {
+                background-color: #f4f6f9;
+            }
+
+            .navbar-brand {
+                font-weight: bold;
+                font-size: 22px;
+            }
+
+            .main-container {
+                min-height: 80vh;
+                padding-top: 20px;
+            }
+
+            .footer {
+                background-color: #212529;
+                color: white;
+                padding: 15px;
+                text-align: center;
+            }
+
+            .card {
+                border-radius: 12px;
+                box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+            }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+            <div class="container-fluid">
+
+                <a class="navbar-brand"
+                       asp-controller="Home"
+                       asp-action="Index">
+
+                    🚌 Smart Bus System
+
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+                <div class="collapse navbar-collapse"
+                     id="navbarNav">
+
+                    <ul class="navbar-nav ms-auto">
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                                   asp-controller="Home"
+                                   asp-action="Index">
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                                   asp-controller="Booking"
+                                   asp-action="Verify">
+
+                                Verify Booking
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container main-container">
+
+        <main role="main">
+
+            @RenderBody()
+
+        </main>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            © 2026 Smart Bus Seat Management System
+
+        </div>
+
+    </footer>
+
+    <!-- SCRIPTS -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+﻿@model BusSeatManagement.ViewModels.SeatChangePaymentViewModel
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-body p-5">
+
+            <h2 class="mb-4 text-center">
+                💳 Seat Change Payment
+            </h2>
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th>Current Seat</th>
+                    <td>@Model.CurrentSeatNumber</td>
+                </tr>
+
+                <tr>
+                    <th>New Seat</th>
+                    <td>@Model.NewSeatNumber</td>
+                </tr>
+
+                <tr>
+                    <th>Current Fare</th>
+                    <td>₹@Model.CurrentFare</td>
+                </tr>
+
+                <tr>
+                    <th>New Fare</th>
+                    <td>₹@Model.NewFare</td>
+                </tr>
+
+                <tr>
+                    <th>Action</th>
+                    <td>@Model.ActionType</td>
+                </tr>
+
+                <tr class="table-warning">
+
+                    <th>
+                        Amount Difference
+                    </th>
+
+                    <td>
+                        ₹@Model.DifferenceAmount
+                    </td>
+
+                </tr>
+
+            </table>
+
+            <form method="post"
+                  asp-action="ConfirmSeatChange">
+
+                <input type="hidden"
+                       asp-for="BookingId" />
+
+                <input type="hidden"
+                       asp-for="NewSeatId" />
+
+                <button type="submit"
+                        class="btn btn-success w-100 btn-lg">
+
+                    Proceed Payment
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

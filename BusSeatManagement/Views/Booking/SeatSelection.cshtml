@@ -1,0 +1,345 @@
+﻿@model List<BusSeatManagement.Models.Seat>
+
+@{
+    ViewData["Title"] = "Seat Selection";
+
+    var booking =
+        ViewBag.Booking as BusSeatManagement.Models.Booking;
+}
+
+<style>
+
+    body {
+        background-color: #f5f5f5;
+    }
+
+    .seat-wrapper {
+        max-width: 850px;
+        margin: auto;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .top-filters {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .price-filter {
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 10px 20px;
+        background: white;
+        font-weight: bold;
+    }
+
+    .bus-layout {
+        display: grid;
+        grid-template-columns: repeat(5, 55px) 80px repeat(5, 55px);
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .seat {
+        width: 55px;
+        height: 55px;
+        border-radius: 10px;
+        border: 2px solid #ccc;
+        background: white;
+        position: relative;
+        transition: 0.3s;
+    }
+
+        .seat:hover {
+            transform: scale(1.05);
+        }
+
+    .seat-button {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: transparent;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .seat.available {
+        border-color: #999;
+    }
+
+    .seat.current {
+        border: 2px solid orange;
+        background-color: #fff3cd;
+    }
+
+    .seat.booked {
+        background-color: #d6d6d6;
+        border-color: #bbb;
+        cursor: not-allowed;
+    }
+
+    .seat.selected {
+        border: 2px solid #0d6efd;
+    }
+
+    .seat-price {
+        font-size: 10px;
+    }
+
+    .driver {
+        grid-column: 1;
+        font-size: 50px;
+        margin-top: 40px;
+        color: #666;
+    }
+
+    .legend {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .legend-seat {
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        border: 2px solid #ccc;
+    }
+
+    .legend-available {
+        background: white;
+    }
+
+    .legend-current {
+        background: #fff3cd;
+        border-color: orange;
+    }
+
+    .legend-booked {
+        background: #d6d6d6;
+    }
+
+    .seat-info {
+        margin-bottom: 30px;
+    }
+
+</style>
+
+<div class="container mt-5">
+
+    <div class="seat-wrapper">
+
+        <!-- BOOKING INFO -->
+
+        <div class="seat-info">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <h6>Passenger</h6>
+
+                    <h5>
+                        @(booking?.PassengerName)
+                    </h5>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <h6>Current Seat</h6>
+
+                    <h5>
+                        @(booking?.Seat?.SeatNumber)
+                    </h5>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <h6>Current Fare</h6>
+
+                    <h5>
+                        ₹@(booking?.CurrentFare)
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PRICE FILTERS -->
+
+        <div class="top-filters">
+
+            <div class="price-filter">
+                All
+            </div>
+
+            <div class="price-filter">
+                ₹368
+            </div>
+
+            <div class="price-filter">
+                ₹399
+            </div>
+
+            <div class="price-filter">
+                ₹418
+            </div>
+
+        </div>
+
+        <!-- ALERTS -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+
+                @TempData["Success"]
+
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">
+
+                @TempData["Error"]
+
+            </div>
+        }
+
+        <!-- DRIVER -->
+
+        <div class="driver">
+            🚍
+        </div>
+
+        <!-- BUS SEATS -->
+
+        <div class="bus-layout">
+
+            @foreach (var seat in Model)
+            {
+                bool isCurrentSeat =
+                    booking?.CurrentSeatId == seat.SeatId;
+
+                string seatClass = "";
+
+                if (isCurrentSeat)
+                {
+                    seatClass = "current";
+                }
+                else if (seat.IsBooked)
+                {
+                    seatClass = "booked";
+                }
+                else
+                {
+                    seatClass = "available";
+                }
+
+                <div class="seat @seatClass">
+
+                    @if (isCurrentSeat)
+                    {
+                        <div class="text-center mt-2">
+
+                            <div>
+                                @seat.SeatNumber
+                            </div>
+
+                            <div class="seat-price">
+                                ₹@seat.Price
+                            </div>
+
+                        </div>
+                    }
+
+                    else if (seat.IsBooked)
+                    {
+                        <div class="text-center mt-3">
+
+                            @seat.SeatNumber
+
+                        </div>
+                    }
+
+                    else
+                    {
+                        <form method="get"
+                              asp-action="Payment">
+
+                            <input type="hidden"
+                                   name="bookingId"
+                                   value="@booking?.BookingId" />
+
+                            <input type="hidden"
+                                   name="newSeatId"
+                                   value="@seat.SeatId" />
+
+                            <button type="submit"
+                                    class="seat-button">
+
+                                <div>
+                                    @seat.SeatNumber
+                                </div>
+
+                                <div class="seat-price">
+                                    ₹@seat.Price
+                                </div>
+
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+        <!-- LEGEND -->
+
+        <div class="legend">
+
+            <div class="legend-item">
+
+                <div class="legend-seat legend-available"></div>
+
+                <span>Available</span>
+
+            </div>
+
+            <div class="legend-item">
+
+                <div class="legend-seat legend-current"></div>
+
+                <span>Current Seat</span>
+
+            </div>
+
+            <div class="legend-item">
+
+                <div class="legend-seat legend-booked"></div>
+
+                <span>Booked</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
