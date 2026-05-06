@@ -139,7 +139,7 @@ The following screenshots demonstrate the core workflow and user experience of t
 
 Passengers can securely verify their booking using Booking ID and registered phone number before accessing seat modification features.
 
-![Verify Booking](screenshots/verify-page.png)
+![Verify Booking](BusSeatManagement/screenshots/verify-page.png)
 
 ---
 
@@ -152,7 +152,7 @@ Real-time bus seat blueprint interface displaying:
 - Seat Pricing
 - Upgrade/Downgrade Options
 
-![Seat Layout](screenshots/seat-layout.png)
+![Seat Layout](BusSeatManagement/screenshots/seat-layout.png)
 
 ---
 
@@ -165,7 +165,7 @@ Dynamic fare recalculation page showing:
 - Upgrade Charges / Refund Amount
 - Payment Confirmation Workflow
 
-![Payment Page](screenshots/payment-page.png)
+![Payment Page](BusSeatManagement/screenshots/payment-page.png)
 
 ---
 
